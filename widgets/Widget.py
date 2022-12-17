@@ -13,8 +13,7 @@ class Widget(ABC):
         self._hidden: bool = False
         self._active: bool = True
         self._pressed: bool = False
-        self._color_fill: Tuple[int, int, int] = (0, 0, 0)
-        self._color_stroke: Tuple[int, int, int] = (0, 0, 0)
+        self._hovered: bool = False
         self._scale: int = config.get("scale", 1)
         self.radius = config.get("radius", 10)
         self.color_fill_idle = config.get("color_fill_idle", (100, 0, 0))
@@ -23,11 +22,17 @@ class Widget(ABC):
         self.color_stroke_idle = config.get("color_stroke_idle", (100, 0, 0))
         self.color_stroke_hover = config.get("color_stroke_hover", (0, 100, 0))
         self.color_stroke_active = config.get("color_stroke_active", (0, 0, 100))
+        self._color_fill: Tuple[int, int, int] = self.color_fill_idle
+        self._color_stroke: Tuple[int, int, int] = self.color_stroke_idle
         self.stroke_width = config.get("stroke_width", 1)
         self.on_click = None
         self.on_click_params = []
         self.on_release = None
         self.on_release_params = []
+        self.on_entry = None
+        self.on_entry_params = []
+        self.on_leave = None
+        self.on_leave_params = []
 
     def update(self):
         if not self._active:
@@ -38,22 +43,21 @@ class Widget(ABC):
             if left_click_pressed:
                 if not self._pressed:
                     self._pressed = True
-                    self._color_fill = self.color_fill_active
-                    self._color_stroke = self.color_stroke_active
                     self.handle_on_click()
                 return
             elif self._pressed:
                 self._pressed = False
                 self.handle_on_release()
                 return
-            self._color_fill = self.color_fill_hover
-            self._color_stroke = self.color_stroke_hover
+            elif not self._hovered:
+                self._hovered = True
+                self.handle_on_entry()
             return
 
-        if not left_click_pressed:
+        if not left_click_pressed and self._hovered:
+            self._hovered = False
             self._pressed = False
-            self._color_fill = self.color_fill_idle
-            self._color_stroke = self.color_stroke_idle
+            self.handle_on_leave()
             return
 
     def draw(self):
@@ -70,12 +74,30 @@ class Widget(ABC):
             )
 
     def handle_on_click(self):
+        print("click")
+        self._color_fill = self.color_fill_active
+        self._color_stroke = self.color_stroke_active
         if self.on_click:
             self.on_click(*self.on_click_params)
 
     def handle_on_release(self):
+        print("release")
         if self.on_release:
             self.on_release(*self.on_release_params)
+
+    def handle_on_entry(self):
+        print("entry")
+        self._color_fill = self.color_fill_hover
+        self._color_stroke = self.color_stroke_hover
+        if self.on_entry:
+            self.on_entry(*self.on_entry_params)
+
+    def handle_on_leave(self):
+        print("leave")
+        self._color_fill = self.color_fill_idle
+        self._color_stroke = self.color_stroke_idle
+        if self.on_leave:
+            self.on_leave(*self.on_leave_params)
 
     def contains(self, x, y):
         """# to compensate for a wrong mouse position when scaling the scene up"""
