@@ -1,11 +1,11 @@
 from widgets.Widget import Widget
-from typing import List, Dict
+from typing import Dict, Any
 
 
 class Container(Widget):
     def __init__(self, surface, x: float, y: float, width: float, height: float, config={}):
         super().__init__(surface, x, y, width, height, config)
-        self.elements: Dict[str, Widget] = {}
+        self.elements: Dict[str, Any] = {}
 
     def add_widget(self, widget_id, widget):
         widget._rect.update(self._rect.x + widget._rect.x, self._rect.y + widget._rect.y, widget._rect.w, widget._rect.h)

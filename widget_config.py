@@ -15,6 +15,8 @@ button_config = {
     "color_stroke_idle": (50, 50, 50),
     "color_stroke_hover": (50, 220, 50),
     "color_stroke_active": (20, 255, 20),
+    "color_text_idle": (50, 50, 50),
+    "color_text_active": (150, 50, 0),
     "stroke_width": 1,
     "radius": 13,
     "font_size": 11,
