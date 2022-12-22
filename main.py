@@ -1,16 +1,18 @@
 import pygame
+import os
 from MainMenue import MainMenu
+from font.fonts import GameFonts
 
 
-# ! what is a container and waht can it do?
 # * add 'simple' state machine as controller
 # * widget pos is relative to container pos
 # * add a function to add a widget to a container
+# * add text
+# * add callbacks
 # ? put click inside outside check into widget
 # ? what is best way for callback stuff on_click etc.?
+# ! what is a container and waht can it do?
 # ! container holds a config for all elements?
-# ! add callbacks
-# ! add text
 
 
 class App:
@@ -52,5 +54,12 @@ class App:
 
 if __name__ == "__main__":
     pygame.init()
+    path = os.path.dirname(__file__)
+    # * SETUP FONTS
+    GameFonts.setup(path=path)
+    fonts = GameFonts.get_shared()
+    # * SETUP GAME
+    os.environ["SDL_VIDEO_CENTERED"] = "1"  # center window
+    os.environ["pg_BLEND_ALPHA_SDL2 "] = "1"  # faster blitting when using SDL2
     app = App()
     app.run()

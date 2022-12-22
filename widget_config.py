@@ -17,4 +17,5 @@ button_config = {
     "color_stroke_active": (20, 255, 20),
     "stroke_width": 1,
     "radius": 13,
+    "font_size": 11,
 }

@@ -1,8 +1,12 @@
-from transitions import Machine
+from transitions import Machine, State
 
 
 class MainMenueController(Machine):
     main_menue_states = ["IDLE", "ACTIVE"]
+    my_states = [
+        State(name="IDLE", on_enter=["_deactivate"], on_exit=[]),
+        State(name="ACTIVE", on_enter=["_activate"], on_exit=["_shutdown"]),
+    ]
     main_menue_transitions = [
         {"trigger": "t_on", "source": "IDLE", "dest": "ACTIVE"},
         {"trigger": "t_off", "source": "ACTIVE", "dest": "IDLE"},
@@ -11,15 +15,18 @@ class MainMenueController(Machine):
     def __init__(self) -> None:
         Machine.__init__(
             self,
-            states=MainMenueController.main_menue_states,
+            states=MainMenueController.my_states,
             transitions=MainMenueController.main_menue_transitions,
             initial=MainMenueController.main_menue_states[0],
             ignore_invalid_triggers=True,
             queued=True,
         )
 
-    def on_enter_ACTIVE(self):
-        print("now active")
+    def _shutdown(self):
+        print("exit active")
 
-    def on_enter_IDLE(self):
-        print("now idle")
+    def _activate(self):
+        print("activating")
+
+    def _deactivate(self):
+        print("de-activating")

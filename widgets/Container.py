@@ -12,16 +12,14 @@ class Container(Widget):
         self.elements[widget_id] = widget
 
     def update(self):
-        if not self._active:
-            return
-        super().update()
+        if self._active:
+            super().update()
         for w_id in self.elements.keys():
             self.elements[w_id].update()
 
     def draw(self):
-        if self._hidden:
-            return
-        super().draw()
+        if not self._hidden:
+            super().draw()
         for w_id in self.elements.keys():
             self.elements[w_id].draw()
 
@@ -32,3 +30,11 @@ class Container(Widget):
     def show_all_elements(self):
         for w_id in self.elements.keys():
             self.elements[w_id].show()
+
+    def activate_all_elements(self):
+        for w_id in self.elements.keys():
+            self.elements[w_id].activate()
+
+    def deactivate_all_elements(self):
+        for w_id in self.elements.keys():
+            self.elements[w_id].deactivate()
