@@ -1,40 +1,41 @@
-from widgets.Widget import Widget
+import pygame
+from widgets.Widget import WidgetProtocol
+
 from typing import Dict, Any
 
 
-class Container(Widget):
-    def __init__(self, surface, x: float, y: float, width: float, height: float, config={}):
-        super().__init__(surface, x, y, width, height, config)
+class Container(WidgetProtocol):
+    def __init__(self, x: float, y: float, w: float, h: float):
+        # super().__init__(surface, x, y, width, height, config)
+        self.rect = pygame.Rect((x, y), (w, h))
         self.elements: Dict[str, Any] = {}
+        self._hidden: bool = False
+        self._active: bool = True
 
     def add_widget(self, widget_id, widget):
         widget.rect.update(self.rect.x + widget.rect.x, self.rect.y + widget.rect.y, widget.rect.w, widget.rect.h)
         self.elements[widget_id] = widget
 
     def update(self):
-        if self._active:
-            super().update()
+        if not self._active:
+            return
         for w_id in self.elements.keys():
             self.elements[w_id].update()
 
     def draw(self):
-        if not self._hidden:
-            super().draw()
+        if self._hidden:
+            return
         for w_id in self.elements.keys():
             self.elements[w_id].draw()
 
-    def hide_all_elements(self):
-        for w_id in self.elements.keys():
-            self.elements[w_id].hide()
+    def hide(self):
+        self._hidden = True
 
-    def show_all_elements(self):
-        for w_id in self.elements.keys():
-            self.elements[w_id].show()
+    def show(self):
+        self._hidden = False
 
-    def activate_all_elements(self):
-        for w_id in self.elements.keys():
-            self.elements[w_id].activate()
+    def activate(self):
+        self._active = True
 
-    def deactivate_all_elements(self):
-        for w_id in self.elements.keys():
-            self.elements[w_id].deactivate()
+    def deactivate(self):
+        self._active = False

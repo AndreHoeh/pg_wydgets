@@ -1,12 +1,32 @@
 import pygame
 
-from abc import abstractmethod, ABC
 from typing import Dict, Any, List, Tuple
+from typing import Protocol
 
 type_widget_config = Dict[str, Any]
 
 
-class Widget(ABC):
+class WidgetProtocol(Protocol):
+    def update(self) -> None:
+        """widgets need to be updated"""
+
+    def draw(self) -> None:
+        """widgets need to be drawn"""
+
+    def hide(self):
+        """Hide the widget"""
+
+    def show(self):
+        """Show the widget"""
+
+    def activate(self):
+        """Activate the widget"""
+
+    def deactivate(self):
+        """Deactivate the widget"""
+
+
+class Widget(WidgetProtocol):
     def __init__(self, surface, x: float, y: float, w: float, h: float, config: type_widget_config = {}):
         self._surf: pygame.Surface = surface
         self.rect = pygame.Rect((x, y), (w, h))
