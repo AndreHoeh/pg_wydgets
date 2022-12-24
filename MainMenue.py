@@ -1,6 +1,7 @@
 from MainMenueController import MainMenueController
 from widgets.Container import Container
 from widgets.Button import Button
+from widgets.TextBox import TextBox
 from widget_config import button_config
 
 
@@ -34,7 +35,7 @@ class MainMenu:
         self.container.add_widget("button1", btn1)
         self.container.add_widget("button2", btn2)
         # add another button, that is only used as a textbox
-        caption = Button(
+        caption = TextBox(
             self.scene,
             x=0,  # left of container
             y=0,  # top of container

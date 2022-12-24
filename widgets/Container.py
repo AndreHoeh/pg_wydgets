@@ -1,5 +1,5 @@
 import pygame
-from widgets.Widget import WidgetProtocol
+from widgets.TextBox import WidgetProtocol
 
 from typing import Dict, Any
 
