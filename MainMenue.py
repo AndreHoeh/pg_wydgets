@@ -10,17 +10,37 @@ class MainMenu:
         self.controller = MainMenueController()
         self.container = Container(self.scene, 50, 50, 230, 80, container_config)
         self._last_state = self.controller.state
-        b1 = Button(self.scene, 10, 10, 100, 50, button_config)
-        b1.on_click = self.controller.t_on  # link a state machine trigger to this buttons on_click event
-        b1.text = "Activate"
-        b2 = Button(self.scene, 120, 10, 100, 50, button_config)
-        b2.text = "Deactivate"
+        btn1 = Button(
+            self.scene,
+            x=0,
+            y=self.container.rect.height // 2,
+            w=self.container.rect.width // 2,
+            h=self.container.rect.height // 2,
+            config=button_config,
+        )
+        btn1.on_click = self.controller.t_on  # link a state machine trigger to this buttons on_click event
+        btn1.text = "Activate"
+        btn2 = Button(
+            self.scene,
+            x=self.container.rect.width // 2,
+            y=self.container.rect.height // 2,
+            w=self.container.rect.width // 2,
+            h=self.container.rect.height // 2,
+            config=button_config,
+        )
+        btn2.text = "Deactivate"
+        btn2.on_click = self.controller.t_off
         # add buttons to the container
-        self.container.add_widget("button1", b1)
-        self.container.add_widget("button2", b2)
-        # access the button via the container
-        self.container.elements["button2"].on_click = self.controller.t_off
-        caption = Button(self.scene, 115, 68, 60, 30, button_config)
+        self.container.add_widget("button1", btn1)
+        self.container.add_widget("button2", btn2)
+        caption = Button(
+            self.scene,
+            x=0,  # left of container
+            y=0,  # top of container
+            w=self.container.rect.width,
+            h=self.container.rect.height // 2,
+            config=button_config,
+        )
         self.container.add_widget("text_caption", caption)
 
     def update(self):

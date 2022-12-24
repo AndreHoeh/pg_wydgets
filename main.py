@@ -11,8 +11,9 @@ from font.fonts import GameFonts
 # * add callbacks
 # ? put click inside outside check into widget
 # ? what is best way for callback stuff on_click etc.?
-# ! what is a container and waht can it do?
-# ! container holds a config for all elements?
+
+# ! add GridContainer
+# ! remove visuals from container
 
 
 class App:

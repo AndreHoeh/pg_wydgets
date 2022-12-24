@@ -8,7 +8,7 @@ class Container(Widget):
         self.elements: Dict[str, Any] = {}
 
     def add_widget(self, widget_id, widget):
-        widget._rect.update(self._rect.x + widget._rect.x, self._rect.y + widget._rect.y, widget._rect.w, widget._rect.h)
+        widget.rect.update(self.rect.x + widget.rect.x, self.rect.y + widget.rect.y, widget.rect.w, widget.rect.h)
         self.elements[widget_id] = widget
 
     def update(self):

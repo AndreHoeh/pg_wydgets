@@ -17,7 +17,7 @@ class MainMenueController(Machine):
             self,
             states=MainMenueController.my_states,
             transitions=MainMenueController.main_menue_transitions,
-            initial=MainMenueController.main_menue_states[0],
+            initial=MainMenueController.my_states[0],
             ignore_invalid_triggers=True,
             queued=True,
         )
