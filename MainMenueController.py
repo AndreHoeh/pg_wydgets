@@ -23,10 +23,10 @@ class MainMenueController(Machine):
         )
 
     def _shutdown(self):
-        print("exit active")
+        print("callback: on_exit ACTIVE state")
 
     def _activate(self):
-        print("activating")
+        print("callback: on_enter ACTIVE state")
 
     def _deactivate(self):
-        print("de-activating")
+        print("callback: on_enter IDLE state")

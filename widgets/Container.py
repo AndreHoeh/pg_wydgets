@@ -12,7 +12,7 @@ class Container(WidgetProtocol):
         self._hidden: bool = False
         self._active: bool = True
 
-    def add_widget(self, widget_id, widget):
+    def add_widget(self, widget_id: str, widget):
         widget.rect.update(self.rect.x + widget.rect.x, self.rect.y + widget.rect.y, widget.rect.w, widget.rect.h)
         self.elements[widget_id] = widget
 
@@ -39,3 +39,28 @@ class Container(WidgetProtocol):
 
     def deactivate(self):
         self._active = False
+
+
+class GridContainer(Container):
+    def __init__(self, x: float, y: float, w: float, h: float, cols: int, rows: int, margin: int):
+        super().__init__(x, y, w, h)
+        self.cols: int = cols
+        self.rows: int = rows
+        self.margin: int = margin
+
+    def add_widget(self, widget_id: str, widget, col: int, row: int):
+        """
+        If widget width or heigth is 0 it is replaced with the grid element size
+        """
+        x_offste = col * (self.rect.width // self.cols) + col * self.margin
+        y_offste = row * (self.rect.height // self.rows) + row * self.margin
+        width = widget.rect.w if widget.rect.w > 0 else self.rect.width // self.cols
+        height = widget.rect.h if widget.rect.h > 0 else self.rect.height // self.rows
+
+        widget.rect.update(
+            self.rect.x + widget.rect.x + x_offste,
+            self.rect.y + widget.rect.y + y_offste,
+            width,
+            height,
+        )
+        self.elements[widget_id] = widget

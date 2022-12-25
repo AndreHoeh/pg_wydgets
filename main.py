@@ -13,8 +13,6 @@ from font.fonts import GameFonts
 # ? what is best way for callback stuff on_click etc.?
 
 # ! add GridContainer
-# ! remove visuals from container
-# ! make a Button a textbox with extra features
 
 
 class App:
