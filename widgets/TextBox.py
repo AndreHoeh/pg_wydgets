@@ -15,8 +15,6 @@ class TextBox(WidgetProtocol):
         self.rect = pygame.Rect((x, y), (w, h))
         self._hidden: bool = False
         self._active: bool = True
-        self._pressed: bool = False
-        self._hovered: bool = False
         self._scale: int = config.get("scale", 1)
         self.radius = config.get("radius", 10)
         self.color_fill_idle = config.get("color_fill_idle", (100, 0, 0))
@@ -32,6 +30,7 @@ class TextBox(WidgetProtocol):
         self._color_text: Tuple[int, int, int] = self.color_text_idle
         self._color_stroke: Tuple[int, int, int] = self.color_stroke_idle
         self.stroke_width = config.get("stroke_width", 1)
+        self.text_align = "c"  # ! use enum
         self.text = config.get("text", "Text")
 
     def update(self):
@@ -49,9 +48,7 @@ class TextBox(WidgetProtocol):
                 border_radius=self.radius,
                 width=self.stroke_width,
             )
-        if self.text:
-            self.alignTextCenter()
-            self._surf.blit(self.text_img, self.text_rect)
+        self._surf.blit(self.text_img, self.text_rect)
 
     @property
     def text(self):
@@ -62,12 +59,31 @@ class TextBox(WidgetProtocol):
         self._text = value
         self.render_text_img()
 
-    def alignTextCenter(self):
+    def text_align_center(self):
+        self.text_align = "c"
         self.text_rect.center = (self.rect.x + self.rect.width // 2, self.rect.y + self.rect.height // 2)
+
+    def text_align_left(self, margin: int = 0):
+        self.text_align = "l"
+        self.text_rect.topleft = (self.rect.x + margin, self.rect.y + self.rect.height // 2)
+
+    def text_align_right(self, margin: int = 0):
+        self.text_align = "r"
+        self.text_rect.topright = (self.rect.x + self.rect.width - margin, self.rect.y + self.rect.height // 2)
 
     def render_text_img(self):
         self.text_img = Fonts.shared.text_mono.render(self.text, False, self._color_text)
         self.text_rect = self.text_img.get_rect()
+        if self.text_align == "c":
+            self.text_align_center()
+        elif self.text_align == "l":
+            self.text_align_left()
+        elif self.text_align == "r":
+            self.text_align_right()
+
+    def rect_update(self, x: int, y: int, width: int, height: int):
+        self.rect.update(x, y, width, height)
+        self.text_align_center()
 
     def set_color_idle(self):
         self._color_text = self.color_text_idle

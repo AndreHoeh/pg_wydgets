@@ -4,17 +4,6 @@ from MainMenue import MainMenu
 from font.fonts import GameFonts
 
 
-# * add 'simple' state machine as controller
-# * widget pos is relative to container pos
-# * add a function to add a widget to a container
-# * add text
-# * add callbacks
-# ? put click inside outside check into widget
-# ? what is best way for callback stuff on_click etc.?
-
-# ! add GridContainer
-
-
 class App:
     def __init__(self):
         self.res = self.width, self.height = (640, 360)

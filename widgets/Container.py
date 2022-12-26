@@ -13,7 +13,7 @@ class Container(WidgetProtocol):
         self._active: bool = True
 
     def add_widget(self, widget_id: str, widget):
-        widget.rect.update(self.rect.x + widget.rect.x, self.rect.y + widget.rect.y, widget.rect.w, widget.rect.h)
+        widget.rect_update(self.rect.x + widget.rect.x, self.rect.y + widget.rect.y, widget.rect.w, widget.rect.h)
         self.elements[widget_id] = widget
 
     def update(self):
@@ -57,7 +57,7 @@ class GridContainer(Container):
         width = widget.rect.w if widget.rect.w > 0 else self.rect.width // self.cols
         height = widget.rect.h if widget.rect.h > 0 else self.rect.height // self.rows
 
-        widget.rect.update(
+        widget.rect_update(
             self.rect.x + widget.rect.x + x_offste,
             self.rect.y + widget.rect.y + y_offste,
             width,

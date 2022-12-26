@@ -5,6 +5,8 @@ from widgets.TextBox import TextBox
 class Button(TextBox):
     def __init__(self, surface, x: float, y: float, w: float, h: float, config={}):
         super().__init__(surface, x, y, w, h, config)
+        self._pressed: bool = False
+        self._hovered: bool = False
         self.on_click = None
         self.on_click_params = []
         self.on_release = None
@@ -14,31 +16,53 @@ class Button(TextBox):
         self.on_leave = None
         self.on_leave_params = []
 
+    # def update(self):
+    #     if not self._active:
+    #         return
+    #     left_click_pressed = pygame.mouse.get_pressed()[0]
+    #     x, y = pygame.mouse.get_pos()
+    #     if self.contains(x, y):
+    #         if left_click_pressed:
+    #             if not self._pressed:
+    #                 self._pressed = True
+    #                 self.handle_on_click()
+    #             return
+    #         elif self._pressed:
+    #             self._pressed = False
+    #             self.handle_on_release()
+    #             return
+    #         elif not self._hovered:
+    #             self._hovered = True
+    #             self.handle_on_entry()
+    #         return
+
+    #     if not left_click_pressed and self._hovered:
+    #         self._hovered = False
+    #         self._pressed = False
+    #         self.handle_on_leave()
+    #         return
+
     def update(self):
         if not self._active:
             return
         left_click_pressed = pygame.mouse.get_pressed()[0]
         x, y = pygame.mouse.get_pos()
         if self.contains(x, y):
-            if left_click_pressed:
-                if not self._pressed:
-                    self._pressed = True
-                    self.handle_on_click()
-                return
-            elif self._pressed:
-                self._pressed = False
-                self.handle_on_release()
-                return
-            elif not self._hovered:
+            if not self._hovered:
                 self._hovered = True
                 self.handle_on_entry()
-            return
-
-        if not left_click_pressed and self._hovered:
+            if left_click_pressed and not self._pressed:
+                self._pressed = True
+                self.handle_on_click()
+            elif not left_click_pressed and self._pressed:
+                self._pressed = False
+                self.handle_on_release()
+        elif self._hovered:
             self._hovered = False
             self._pressed = False
+            # if not left_click_pressed:
             self.handle_on_leave()
-            return
+            # evtl needs else release hgere
 
     def handle_on_click(self):
         print("click")

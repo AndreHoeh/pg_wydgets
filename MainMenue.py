@@ -21,8 +21,8 @@ class MainMenu:
             h=self.container.rect.height // 2,
             config=button_config,
         )
-        # link a state machine trigger to this buttons on_click event
-        btn1.on_click = self.controller.t_on
+        # link a state machine trigger to this buttons on_release event
+        btn1.on_release = self.controller.t_on
         btn1.text = "Activate"
         btn2 = Button(
             self.scene,
@@ -33,7 +33,7 @@ class MainMenu:
             config=button_config,
         )
         btn2.text = "Deactivate"
-        btn2.on_click = self.controller.t_off
+        btn2.on_release = self.controller.t_off
         # add buttons to the container
         self.container.add_widget("button1", btn1)
         self.container.add_widget("button2", btn2)
@@ -48,7 +48,7 @@ class MainMenu:
         caption.text = 'Press "Activate"!'
         self.container.add_widget("text_caption", caption)
 
-        self.grid = GridContainer(50, 130, 230, 80, 3, 3, 1)
+        self.grid = GridContainer(50, 130, 230, 80, 3, 3, 3)
         for r in range(3):
             for c in range(3):
                 btn = Button(self.scene, 0, 0, 0, 0, button_config)
@@ -62,10 +62,12 @@ class MainMenu:
             if state == "IDLE":
                 self.container.elements["text_caption"].set_color_idle()
                 self.container.elements["text_caption"].text = "IDLE"
+                # self.container.elements["text_caption"].textAlignLeft()
 
             elif state == "ACTIVE":
                 self.container.elements["text_caption"].set_color_active()
                 self.container.elements["text_caption"].text = "ACTIVE"
+                # self.container.elements["text_caption"].textAlignRight()
         self.container.update()
         self.grid.update()
 
