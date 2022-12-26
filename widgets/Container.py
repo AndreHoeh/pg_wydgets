@@ -50,7 +50,9 @@ class GridContainer(Container):
 
     def add_widget(self, widget_id: str, widget, col: int, row: int):
         """
-        If widget width or heigth is 0 it is replaced with the grid element size
+        If widget width or heigth of the widget is 0 it is replaced with the grid element size.
+        The element size depends on the size of the GridContainer and the number of collumns and rows.
+        The widget position is used as an offset to the position in the grid.
         """
         x_offste = col * (self.rect.width // self.cols) + col * self.margin
         y_offste = row * (self.rect.height // self.rows) + row * self.margin

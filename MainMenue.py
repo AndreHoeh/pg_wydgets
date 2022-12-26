@@ -4,10 +4,15 @@ from widgets.Container import Container
 from widgets.Container import GridContainer
 from widgets.Button import Button
 from widgets.TextBox import TextBox
-from widget_config import button_config
+from widget_config import button_config, textbox_config
 
 
 class MainMenu:
+
+    MARGIN = 3
+    COLS = 3
+    ROWS = 6
+
     def __init__(self, scene) -> None:
         self.scene = scene
         self.controller = MainMenueController()
@@ -16,7 +21,7 @@ class MainMenu:
         btn1 = Button(
             self.scene,
             x=0,
-            y=self.container.rect.height // 2,
+            y=self.container.rect.height // 2 + self.MARGIN,
             w=self.container.rect.width // 2,
             h=self.container.rect.height // 2,
             config=button_config,
@@ -26,8 +31,8 @@ class MainMenu:
         btn1.text = "Activate"
         btn2 = Button(
             self.scene,
-            x=self.container.rect.width // 2,
-            y=self.container.rect.height // 2,
+            x=self.container.rect.width // 2 + self.MARGIN,
+            y=self.container.rect.height // 2 + self.MARGIN,
             w=self.container.rect.width // 2,
             h=self.container.rect.height // 2,
             config=button_config,
@@ -39,18 +44,28 @@ class MainMenu:
         self.container.add_widget("button2", btn2)
         caption = TextBox(
             self.scene,
-            x=0,  # left of container
+            x=0,  # left of container, no offset
             y=0,  # top of container
             w=self.container.rect.width,
             h=self.container.rect.height // 2,
-            config=button_config,
+            config=textbox_config,
         )
         caption.text = 'Press "Activate"!'
         self.container.add_widget("text_caption", caption)
+        self.setup_button_grid()
 
-        self.grid = GridContainer(50, 130, 230, 80, 3, 3, 3)
-        for r in range(3):
-            for c in range(3):
+    def setup_button_grid(self):
+        self.grid = GridContainer(
+            x=50,
+            y=150,
+            w=150,
+            h=150,
+            cols=self.COLS,
+            rows=self.ROWS,
+            margin=self.MARGIN,
+        )
+        for r in range(self.ROWS):
+            for c in range(self.COLS):
                 btn = Button(self.scene, 0, 0, 0, 0, button_config)
                 text = "btn" + str((r * self.grid.cols) + c)
                 btn.text = text
@@ -62,12 +77,12 @@ class MainMenu:
             if state == "IDLE":
                 self.container.elements["text_caption"].set_color_idle()
                 self.container.elements["text_caption"].text = "IDLE"
-                # self.container.elements["text_caption"].textAlignLeft()
+                self.container.elements["text_caption"].text_align_left(10)
 
             elif state == "ACTIVE":
                 self.container.elements["text_caption"].set_color_active()
                 self.container.elements["text_caption"].text = "ACTIVE"
-                # self.container.elements["text_caption"].textAlignRight()
+                self.container.elements["text_caption"].text_align_right(10)
         self.container.update()
         self.grid.update()
 

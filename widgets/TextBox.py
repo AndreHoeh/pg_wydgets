@@ -65,11 +65,11 @@ class TextBox(WidgetProtocol):
 
     def text_align_left(self, margin: int = 0):
         self.text_align = "l"
-        self.text_rect.topleft = (self.rect.x + margin, self.rect.y + self.rect.height // 2)
+        self.text_rect.midleft = (self.rect.x + margin, self.rect.y + self.rect.height // 2)
 
     def text_align_right(self, margin: int = 0):
         self.text_align = "r"
-        self.text_rect.topright = (self.rect.x + self.rect.width - margin, self.rect.y + self.rect.height // 2)
+        self.text_rect.midright = (self.rect.x + self.rect.width - margin, self.rect.y + self.rect.height // 2)
 
     def render_text_img(self):
         self.text_img = Fonts.shared.text_mono.render(self.text, False, self._color_text)
